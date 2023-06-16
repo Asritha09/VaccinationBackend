@@ -59,7 +59,7 @@ app.post('/userSignup', async (req, res) => {
 });
 
 
-app.post('/userSignup', async (req, res) => {
+app.post('/adminSignup', async (req, res) => {
     const { email, password } = req.body;
     // const email="kumar@gmail.com"
     // const password="1234"
