@@ -176,20 +176,19 @@ app.get('/getVaccinationCenters', async (req, res) => {
 });
 
 app.post('/vaccinationSlots', async (req, res) => {
-    // const id = "648ae58fa8f3ae8d62f63200";
-    // const email = "example@gmail.com";
-    // const date = "20/6/2023";
-    const id=req.body.id
+ 
+    const centerName=req.body.slotCenterName
     const email=req.body.email
     const date=req.body.formattedDate
-  
+    
     try {
-      const updatedCentre = await VaccinationModel.updateOne(
-        { _id: id, "workingHours.Date": date },
-        { $push: { "workingHours.$.Slots": email }, $inc: { "workingHours.$.NumberOfPeople": 1 } }
-      );
-    console.log(updatedCentre);
-      if (updatedCentre.modifiedCount > 0) {
+        const updatedCentre = await VaccinationModel.findOneAndUpdate(
+            { centerName: centerName, "workingHours.Date": date },
+            { $push: { "workingHours.$.Slots": email }, $inc: { "workingHours.$.NumberOfPeople": 1 } }
+          );
+
+
+      if (updatedCentre) {
         res.json({ message: 'Vaccination slot booked successfully' });
       } else {
         res.json({ error: 'Working hour not found for the provided date' });
